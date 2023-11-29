@@ -13,7 +13,7 @@ EXP_DIR="data/test-experiment/"
 declare -a pairs=(nv)
 # declare -a seeds=(111 222 333 444 555 666 777 888 999 1709)
 
-MODEL="bert-base-multilingual-cased"
+MODEL="bert-base-uncased"
 MODELNAME=$MODEL
 
 # pass in other NUM 1 and NUM 2s for different unused pairs (do this later!)

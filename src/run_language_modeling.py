@@ -85,13 +85,14 @@ class BestValues:
 
 # initialize evaluation states
 best_dev_diff = BestValues()
-best_dev_ident = BestValues()
+# best_dev_ident = BestValues()
 
 
 def update_evaluation_results(results, i):
-    global best_dev_diff, best_dev_ident
+    global best_dev_diff
+    # global best_dev_diff, best_dev_ident
     best_dev_diff.update(results['all_diff'], i)
-    best_dev_ident.update(results['all_ident'], i)
+    # best_dev_ident.update(results['all_ident'], i)
 
 
 class Stat:
@@ -763,7 +764,7 @@ def evaluate_prob(args, model: PreTrainedModel, tokenizer: PreTrainedTokenizer, 
 
     data_kinds = {
         'diff': '_different_{}_{}.txt'.format,
-        'ident': '_identical_{}_{}.txt'.format,
+        # 'ident': '_identical_{}_{}.txt'.format,
     }
     if longer:
         data_kinds['diff_longer'] = '_different_{}_{}_longer.txt'.format
@@ -1298,18 +1299,20 @@ def main():
             update_evaluation_results(results, i)
 
     print("Best dev for structurally different: ", best_dev_diff.value, best_dev_diff.ids)
-    print("Best dev for structurally identical: ", best_dev_ident.value, best_dev_ident.ids)
+    # print("Best dev for structurally identical: ", best_dev_ident.value, best_dev_ident.ids)
 
-    common_best_eps = set(best_dev_diff.ids) & set(best_dev_ident.ids)
+    common_best_eps = set(best_dev_diff.ids)
+    # common_best_eps = set(best_dev_diff.ids) & set(best_dev_ident.ids)
     if common_best_eps:
         best_diff_ep = max(common_best_eps)
-        best_ident_ep = max(common_best_eps)
+        # best_ident_ep = max(common_best_eps)
     else:
         best_diff_ep = max(best_dev_diff.ids)
-        best_ident_ep = max(best_dev_ident.ids)
+        # best_ident_ep = max(best_dev_ident.ids)
 
     # evaluate the model after the first epoch and selected models
-    for i in [0, best_diff_ep, best_ident_ep]:
+    for i in [0, best_diff_ep]:
+    # for i in [0, best_diff_ep, best_ident_ep]:
         model = switch_model_checkpoint(model, os.path.join(args.output_dir, f'checkpoint-{i}'), args)
         model.to(args.device)
         evaluate_prob(args, model, tokenizer, i, 'test', longer=args.eval_longer, pll_whole_sentence=args.pll_whole_sentence)

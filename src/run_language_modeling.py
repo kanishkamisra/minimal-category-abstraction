@@ -1184,6 +1184,20 @@ def main():
             "mask_token": "<mask>",
             "additional_special_tokens": args.unused_list,
         }
+    elif args.model_type == "smolm":
+        special_tokens_dict = {
+            "pad_token": "<pad>",
+            "mask_token": "<mask>",
+            "additional_special_tokens": args.unused_list,
+        }
+    else:
+        special_tokens_dict = {
+            "pad_token": "<pad>",
+            # "eos_token": "<|endoftext|>",
+            # "bos_token": "<|endoftext|>",
+            "mask_token": "[MASK]",
+            "additional_special_tokens": args.unused_list,
+        }
     if args.tokenizer_name:
         tokenizer = AutoTokenizer.from_pretrained(args.tokenizer_name, cache_dir=args.cache_dir, **special_tokens_dict)
     elif args.model_name_or_path:
@@ -1245,6 +1259,10 @@ def main():
             # TODO: also save the inital embeddings (for visualization)
 
     model.to(args.device)
+
+    print(tokenizer)
+
+    print(model.resize_token_embeddings())
 
     if args.local_rank == 0:
         torch.distributed.barrier()  # End of barrier to make sure only the first process in distributed training download model & vocab

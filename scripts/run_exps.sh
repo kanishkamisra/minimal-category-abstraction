@@ -1,19 +1,19 @@
 #!/bin/bash
 
 
-DATASET='testexp'
+DATASET='childes'
 
 EPOCHS=70
 BATCH_SIZE=16
 LR=0.001
-EXP_DIR="data/test-experiment/"
+EXP_DIR="data/childes_stimuli/"
 
 # unused numbers = [7, 63, 92, 63, 28, 10, 62, 48, 62, 40, 19, 31]
 
-declare -a pairs=(nv)
+declare -a pairs=(adjadv)
 # declare -a seeds=(111 222 333 444 555 666 777 888 999 1709)
 
-MODEL="bert-base-uncased"
+MODEL="kanishka/smolm-autoreg-bpe-seed_111"
 MODELNAME=$MODEL
 
 # pass in other NUM 1 and NUM 2s for different unused pairs (do this later!)
@@ -33,11 +33,11 @@ do
             --tokens "[unused${NUM1}]" "[unused${NUM2}]" \
             --learning_rate ${LR} \
             --seed ${i} \
-            --model_type bert \
+            --model_type smolm \
             --model_name_or_path ${MODEL} \
             --do_train \
+            --pll_whole_sentence \
             --evaluate_during_training \
-            --mlm \
             --line_by_line \
             --num_train_epochs ${EPOCHS} \
             --save_steps -1 \

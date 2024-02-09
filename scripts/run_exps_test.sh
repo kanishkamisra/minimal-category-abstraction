@@ -3,9 +3,9 @@
 
 DATASET='childes'
 
-EPOCHS=70
+EPOCHS=10
 BATCH_SIZE=16
-LR=0.001
+LR=0.005
 EXP_DIR="data/childes_stimuli/"
 
 # unused numbers = [7, 63, 92, 63, 28, 10, 62, 48, 62, 40, 19, 31]
@@ -13,8 +13,8 @@ EXP_DIR="data/childes_stimuli/"
 # declare -a pairs=(nv)
 # declare -a seeds=(111 222 333 444 555 666 777 888 999 1709)
 
-declare -a pairs=(adjadv adjn adjv advn advv nv)
-declare -a seeds=(111 222 333 444 555 666 777 888 999 1709)
+declare -a pairs=(nv)
+declare -a seeds=(111)
 
 # MODEL="kanishka/smolm-autoreg-bpe-seed_111"
 # MODELNAME=$MODEL

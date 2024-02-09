@@ -484,6 +484,8 @@ def train(args, train_dataset, model: PreTrainedModel, tokenizer: PreTrainedToke
 
     print(f"TOKENIZED: {stimuli_sets[''][1]}")
 
+    # print(f"NEW TENSORS: {model.resize_token_embeddings().weight[token_ids_tensor]}")
+
     def _get_layerwise_embs_for_novel_words(stimuli):
         model.to('cpu')
         model.eval()
